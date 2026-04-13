@@ -1,0 +1,180 @@
+.miniSelect {
+  background: #060c12;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+.positionsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.posCard {
+  background: #060c12;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.posHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.posNum {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.removeBtn {
+  background: transparent;
+  border: 1px solid #1a3a4a;
+  border-radius: 5px;
+  padding: 4px 10px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.removeBtn:hover { border-color: var(--red); color: var(--red); }
+
+.lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.actionRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.addBtn {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  border: 1px dashed #1a3a55;
+  border-radius: 8px;
+  color: var(--blue);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.addBtn:hover { border-color: var(--blue); }
+
+.calcBtn {
+  flex: 2;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #0a2540, #0d3550);
+  border: 1px solid #00c8ff66;
+  border-radius: 8px;
+  color: var(--blue);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.calcBtn:hover { box-shadow: 0 0 16px #00c8ff22; }
+
+/* ── Table ─── */
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 580px;
+}
+
+.th {
+  padding: 9px 12px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: #060c12;
+  border-bottom: 1px solid var(--border);
+}
+
+.tr { border-bottom: 1px solid #0a1824; }
+.tr:last-child { border-bottom: none; }
+.tr:hover { background: #070e16; }
+
+.td { padding: 10px 12px; vertical-align: middle; }
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.pair {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--blue);
+  letter-spacing: 1px;
+}
+
+/* ── Summary ─── */
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 700px) {
+  .summaryGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.sumCard {
+  background: #060c12;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sumLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sumVal {
+  font-family: var(--font-mono);
+  font-size: 18px;
+}

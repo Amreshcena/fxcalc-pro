@@ -1,0 +1,51 @@
+.bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-bottom: 28px;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.bar::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+
+.pairLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--blue);
+}
+
+.rateVal {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: #fff;
+}
+
+.skeleton {
+  display: inline-block;
+  width: 52px;
+  height: 10px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #0d2235, #1a3a55, #0d2235);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

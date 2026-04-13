@@ -1,0 +1,22 @@
+.infoBar {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #060f18;
+  border: 1px solid #00c8ff22;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #4a8aaa;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+}
+
+.infoIcon {
+  color: var(--blue);
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}

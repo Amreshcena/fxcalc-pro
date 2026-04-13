@@ -1,0 +1,236 @@
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+/* ── Header ────────────────────────────────────── */
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00c8ff44, transparent);
+  pointer-events: none;
+}
+
+.headerInner {
+  display: inline-block;
+  background: var(--bg);
+  padding: 0 28px;
+  position: relative;
+}
+
+.logo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 6px;
+  color: var(--blue);
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.title {
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 0 0 30px #00c8ff55;
+  line-height: 1;
+  font-family: var(--font-ui);
+}
+
+.title span {
+  color: var(--green);
+  text-shadow: 0 0 20px #00ff9d88;
+}
+
+/* ── Tab Nav — two rows ───────────────────────── */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;          /* ← KEY: allows tabs to wrap to 2nd row */
+  gap: 4px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  flex: 0 0 auto;           /* don't stretch, use natural width */
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #8ab0c0;
+  background: #0d2235;
+}
+
+.tabActive {
+  background: linear-gradient(135deg, #0a2540, #0d3050);
+  color: var(--blue);
+  text-shadow: 0 0 10px #00c8ff66;
+  border-color: #00c8ff44;
+}
+
+/* ── Calculator Card ───────────────────────────── */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00c8ff66, transparent);
+}
+
+.cardTitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--blue);
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+
+/* ── Status Bar ────────────────────────────────── */
+.statusBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.liveDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.statusText {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.errorBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--red);
+  background: #1a060844;
+  border: 1px solid #ff4d6d33;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+/* ── Footer ────────────────────────────────────── */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #1a3a55;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── Theme Toggle Button ─────────────────────── */
+.themeBtn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.themeBtn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 600px) {
+  .title { font-size: 26px; }
+  .card  { padding: 16px 12px; }
+  .tab   { font-size: 11px; padding: 7px 10px; }
+  .themeBtn { display: none; } /* hide on mobile, toggled via tap */
+}
+
+/* ── Light-mode overrides ────────────────────── */
+[data-theme='light'] .card {
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+[data-theme='light'] .tab:hover {
+  background: #e8f0f8;
+  color: var(--blue);
+}
+[data-theme='light'] .tabActive {
+  background: linear-gradient(135deg, #deeeff, #c8e4ff);
+  color: var(--blue);
+  border-color: #90c4e8;
+  text-shadow: none;
+}
+[data-theme='light'] .title {
+  text-shadow: none;
+  color: #0a1a2a;
+}
+[data-theme='light'] .title span {
+  color: var(--green);
+  text-shadow: none;
+}

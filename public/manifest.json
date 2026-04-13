@@ -1,0 +1,38 @@
+{
+  "name": "FXCalc Pro — Forex Calculator",
+  "short_name": "FXCalc Pro",
+  "description": "Professional Forex Calculator: Pip Value, Position Size, Leverage, Margin, P&L, Risk/Reward & Trade Journal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050a0e",
+  "theme_color": "#00c8ff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "utilities"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Pip Calculator",
+      "url": "/",
+      "description": "Open Pip Value Calculator"
+    },
+    {
+      "name": "Trade Journal",
+      "url": "/",
+      "description": "Open Trade Journal"
+    }
+  ]
+}

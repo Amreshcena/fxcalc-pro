@@ -1,0 +1,76 @@
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.input {
+  background: #060c12;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.input:focus {
+  border-color: #00c8ff88;
+  box-shadow: 0 0 0 3px #00c8ff11;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.radioBtn {
+  flex: 1;
+  padding: 10px;
+  background: #060c12;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.buyActive {
+  background: #061a0f;
+  border-color: #00ff9d88;
+  color: var(--green);
+  text-shadow: 0 0 8px #00ff9d44;
+}
+
+.sellActive {
+  background: #1a0608;
+  border-color: #ff4d6d88;
+  color: var(--red);
+  text-shadow: 0 0 8px #ff4d6d44;
+}
+
+@media (max-width: 600px) {
+  .grid2,
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Direction modifier classes (used alongside .radioBtn) */
+.buy  { /* placeholder for buy direction radioBtn */ }
+.sell { /* placeholder for sell direction radioBtn */ }

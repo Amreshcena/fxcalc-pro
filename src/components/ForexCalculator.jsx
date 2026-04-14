@@ -61,7 +61,7 @@ export default function ForexCalculator() {
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <p className={styles.logo}>⬡ Forex Terminal</p>
-          <h1 className={styles.title}>FX<span>CALC</span> PRO</h1>
+          <h1 className={styles.title}>FX<span>WOLFIX</span> PRO</h1>
         </div>
         <button
           className={styles.themeBtn}

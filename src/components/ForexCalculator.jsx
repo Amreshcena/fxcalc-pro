@@ -16,6 +16,8 @@ import SwapTab          from './SwapTab'
 import BreakEvenTab     from './BreakEvenTab'
 import ExposureTab      from './ExposureTab'
 import ConverterTab     from './ConverterTab'
+import TradingViewTab from './TradingViewTab'
+import AlertsTab      from './AlertsTab'  
 import styles from './ForexCalculator.module.css'
 
 export default function ForexCalculator() {
@@ -52,6 +54,8 @@ export default function ForexCalculator() {
     <ConverterTab    rates={rates} />,
     <JournalTab />,
     <CompoundTab />,
+    <TradingViewTab />,       
+  <AlertsTab rates={rates} />,  
   ]
 
   return (

@@ -122,4 +122,4 @@ export const TICKER_PAIRS = [
 ]
 
 // ─── CALCULATOR TABS ─────────────────────────────────────────────────────────
-export const TABS = ['Pip Value', 'Pip Diff', 'Position Size', 'Leverage', 'Margin', 'P&L', 'Risk/Reward', 'Swap', 'Break-Even', 'Exposure', 'Converter', 'Journal', 'Growth']
+export const TABS = ['Pip Value', 'Pip Diff', 'Position Size', 'Leverage', 'Margin', 'P&L', 'Risk/Reward', 'Swap', 'Break-Even', 'Exposure', 'Converter', 'Journal', 'Growth', 'Chart', 'Alerts']

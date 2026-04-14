@@ -60,13 +60,56 @@
 /* ── Tab Nav — two rows ───────────────────────── */
 .tabs {
   display: flex;
-  flex-wrap: wrap;          /* ← KEY: allows tabs to wrap to 2nd row */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* hide scrollbar on Android */          
   gap: 4px;
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 6px;
   margin-bottom: 20px;
+}
+
+/* ── Scroll hint animation ──────────────────────── */
+@keyframes scrollHint {
+  0%   { transform: translateX(0); }
+  30%  { transform: translateX(12px); }
+  60%  { transform: translateX(4px); }
+  80%  { transform: translateX(10px); }       
+  100% { transform: translateX(0); }
+}
+
+@keyframes fadeArrow {
+  0%, 100% { opacity: 0.2; }
+  50%       { opacity: 1; }
+}
+
+.tabs:not(.hinted) {
+  animation: scrollHint 0.8s ease-in-out 1s 3;
+}
+
+.tabs::after {
+  content: '›  ›  ›';
+  position: sticky;
+  right: 0;
+  min-width: 48px;
+  display: flex;
+  align-items: flex-end;   
+  justify-content: center; 
+  padding-bottom: 25px;  
+  font-size: 14px;
+  color: var(--blue);
+  background: linear-gradient(to right, transparent, var(--card-bg) 40%);
+  pointer-events: none;
+  border-radius: 0 10px 10px 0;
+  letter-spacing: -2px;
+  animation: fadeArrow 1s ease-in-out 1s infinite;
+}
+
+.tabs.hinted::after {
+  display: none;
 }
 
 .tab {
@@ -208,7 +251,8 @@
 @media (max-width: 600px) {
   .title { font-size: 26px; }
   .card  { padding: 16px 12px; }
-  .tab   { font-size: 11px; padding: 7px 10px; }
+  .tab { font-size: 11px; padding: 7px 12px; flex-shrink: 0; }  
+  .tabs::after { display: block; height: 100%; }      
   .themeBtn { display: none; } /* hide on mobile, toggled via tap */
 }
 

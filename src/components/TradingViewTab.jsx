@@ -1,40 +1,24 @@
 import { useState, useEffect, useRef } from 'react'
-import { PAIRS } from '../utils/constants'
 import t from './TradingViewTab.module.css'
-
-const CHART_PAIRS = [
-  'EUR/USD', 'GBP/USD', 'USD/JPY', 'USD/CHF',
-  'AUD/USD', 'USD/CAD', 'NZD/USD', 'EUR/GBP',
-  'EUR/JPY', 'GBP/JPY', 'AUD/JPY', 'EUR/AUD',
-  'USD/SGD', 'USD/MXN', 'USD/ZAR', 'USD/TRY',
-]
-
-const INTERVALS = [
-  { label: '1m',  value: '1'   },
-  { label: '5m',  value: '5'   },
-  { label: '15m', value: '15'  },
-  { label: '30m', value: '30'  },
-  { label: '1H',  value: '60'  },
-  { label: '4H',  value: '240' },
-  { label: '1D',  value: 'D'   },
-  { label: '1W',  value: 'W'   },
-]
 
 const THEMES = [
   { label: '☾ Dark',  value: 'dark'  },
   { label: '☀ Light', value: 'light' },
 ]
 
-export default function TradingViewTab() {
-  const [pair,     setPair    ] = useState('EUR/USD')
-  const [interval, setInterval] = useState('60')
-  const [theme,    setTheme   ] = useState('dark')
-  const [studies,  setStudies ] = useState(['RSI', 'MACD'])
-  const containerRef = useRef(null)
-  const widgetRef    = useRef(null)
+const STUDIES_MAP = {
+  RSI:    'STD;RSI',
+  MACD:   'STD;MACD',
+  Volume: 'STD;Volume',
+  BB:     'STD;Bollinger_Bands',
+}
+   
+let widgetInstance = null  // module-level ref to destroy old widget properly
 
-  // Convert "EUR/USD" → "FX:EURUSD"
-  const toSymbol = (p) => `FX:${p.replace('/', '')}`
+export default function TradingViewTab() {
+  const [theme,   setTheme  ] = useState('dark')
+  const [studies, setStudies] = useState(['RSI', 'MACD'])
+  const containerRef = useRef(null)
 
   const toggleStudy = (s) => {
     setStudies(prev =>
@@ -43,75 +27,80 @@ export default function TradingViewTab() {
   }
 
   useEffect(() => {
-    if (!containerRef.current) return
+    // Destroy previous widget instance completely before creating a new one
+    if (widgetInstance) {
+      try { widgetInstance.remove() } catch (_) {}
+      widgetInstance = null
+    }
 
-    // Remove old widget
-    if (widgetRef.current) {
+    // Clear container HTML
+    if (containerRef.current) {
       containerRef.current.innerHTML = ''
     }
 
-    const script = document.createElement('script')
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js'
-    script.type = 'text/javascript'
-    script.async = true
-    script.innerHTML = JSON.stringify({
-      autosize:          true,
-      symbol:            toSymbol(pair),
-      interval:          interval,
-      timezone:          'Etc/UTC',
-      theme:             theme,
-      style:             '1',
-      locale:            'en',
-      enable_publishing: false,
-      hide_top_toolbar:  false,
-      hide_legend:       false,
-      save_image:        true,
-      calendar:          false,
-      studies:           studies,
-      container_id:      'tv_chart_container',
-    })
+    const containerId = 'tv_chart_container'
 
-    containerRef.current.appendChild(script)
-    widgetRef.current = script
+    const initWidget = () => {
+      if (!window.TradingView || !containerRef.current) return
+
+      widgetInstance = new window.TradingView.widget({
+        // Sizing — let CSS control width, fix height explicitly
+        width:    '100%',
+        height:   580,
+        autosize: false,
+
+        symbol:   'FX:EURUSD',
+        interval: '60',
+        timezone: 'Etc/UTC',
+        theme:    theme,
+        style:    '1',
+        locale:   'en',
+
+        toolbar_bg:        theme === 'dark' ? '#1a1d2e' : '#f1f3fb',
+        enable_publishing: false,
+        allow_symbol_change: true,   // symbol search in top bar
+        hide_top_toolbar:  false,
+        hide_legend:       false,
+        hide_side_toolbar: false,    // keeps drawing tools visible
+        save_image:        true,
+        withdateranges:    true,
+
+        // Use proper study IDs — short names like "RSI" cause 404 errors
+        studies: studies.map(s => STUDIES_MAP[s]).filter(Boolean),
+
+        container_id: containerId,
+      })
+    }
+
+    // If tv.js is already loaded just init, else load it first
+    if (window.TradingView) {
+      initWidget()
+    } else {
+      // Remove any stale tv.js script tags
+      document.querySelectorAll('script[src="https://s3.tradingview.com/tv.js"]')
+        .forEach(s => s.remove())
+
+      const script = document.createElement('script')
+      script.src   = 'https://s3.tradingview.com/tv.js'
+      script.async = true
+      script.onload = initWidget
+      document.head.appendChild(script)
+    }
 
     return () => {
+      if (widgetInstance) {
+        try { widgetInstance.remove() } catch (_) {}
+        widgetInstance = null
+      }
       if (containerRef.current) containerRef.current.innerHTML = ''
     }
-  }, [pair, interval, theme, studies])
+  }, [theme, studies])
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+
       {/* Controls */}
       <div className={t.controls}>
-        {/* Pair selector */}
-        <div className={t.controlGroup}>
-          <span className={t.ctrlLabel}>PAIR</span>
-          <select
-            className={t.select}
-            value={pair}
-            onChange={e => setPair(e.target.value)}
-          >
-            {CHART_PAIRS.map(p => (
-              <option key={p} value={p}>{p}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Interval buttons */}
-        <div className={t.controlGroup}>
-          <span className={t.ctrlLabel}>TIMEFRAME</span>
-          <div className={t.btnGroup}>
-            {INTERVALS.map(iv => (
-              <button
-                key={iv.value}
-                className={`${t.ivBtn} ${interval === iv.value ? t.ivActive : ''}`}
-                onClick={() => setInterval(iv.value)}
-              >
-                {iv.label}
-              </button>
-            ))}
-          </div>
-        </div>
 
         {/* Theme toggle */}
         <div className={t.controlGroup}>
@@ -133,7 +122,7 @@ export default function TradingViewTab() {
         <div className={t.controlGroup}>
           <span className={t.ctrlLabel}>INDICATORS</span>
           <div className={t.btnGroup}>
-            {['RSI', 'MACD', 'Volume', 'BB'].map(s => (
+            {Object.keys(STUDIES_MAP).map(s => (
               <button
                 key={s}
                 className={`${t.ivBtn} ${studies.includes(s) ? t.ivActive : ''}`}
@@ -146,17 +135,28 @@ export default function TradingViewTab() {
         </div>
       </div>
 
-      {/* Chart container */}
-      <div className={t.chartWrap}>
+      {/* Chart wrapper — fills remaining space */}
+      <div
+        className={t.chartWrap}
+        style={{ flex: 1, minHeight: 580, position: 'relative', width: '100%' }}
+      >
         <div
           id="tv_chart_container"
           ref={containerRef}
-          className={t.chart}
+          style={{
+            position: 'absolute',
+            inset: 0,          // top:0 right:0 bottom:0 left:0
+            width:  '100%',
+            height: '100%',
+          }}
         />
       </div>
 
       <p className={t.credit}>
-        Charts powered by <a href="https://www.tradingview.com" target="_blank" rel="noreferrer">TradingView</a>
+        Charts powered by{' '}
+        <a href="https://www.tradingview.com" target="_blank" rel="noreferrer">
+          TradingView   
+        </a>
       </p>
     </div>
   )

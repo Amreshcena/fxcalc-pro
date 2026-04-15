@@ -9,19 +9,61 @@ function loadAlerts() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [] } catch { return [] }
 }
 function saveAlerts(alerts) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(alerts)) } catch {}
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(alerts)) } catch { }
+}
+
+// Play a beeping sound for 30 seconds using Web Audio API.
+// Works even when the tab is in the background (audio is pre-scheduled).
+// Returns a stop() function to cancel it early.
+function playAlertSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)()
+    let stopped = false
+    const endTime = ctx.currentTime + 30  // ring for 30 seconds
+
+    const beep = (startAt) => {
+      if (stopped || startAt >= endTime) return
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.type = 'sine'
+      osc.frequency.setValueAtTime(880, startAt)
+      osc.frequency.setValueAtTime(660, startAt + 0.1)
+      gain.gain.setValueAtTime(0.4, startAt)
+      gain.gain.exponentialRampToValueAtTime(0.001, startAt + 0.4)
+      osc.start(startAt)
+      osc.stop(startAt + 0.4)
+      // Schedule next beep 1.2 s later using setTimeout so we can bail if stopped
+      const delay = (startAt - ctx.currentTime + 1.2) * 1000
+      setTimeout(() => beep(ctx.currentTime + 0.05), delay)
+    }
+
+    beep(ctx.currentTime)
+
+    // Return stop function
+    return () => {
+      stopped = true
+      try { ctx.close() } catch (_) { }
+    }
+  } catch (e) {
+    console.warn('Alert sound failed:', e)
+    return () => { }
+  }
 }
 
 let alertIdCounter = Date.now()
 
 export default function AlertsTab({ rates }) {
-  const [alerts,      setAlerts     ] = useState(loadAlerts)
-  const [pair,        setPair       ] = useState('EUR/USD')
-  const [condition,   setCondition  ] = useState('above') // 'above' | 'below'
+  const [alerts, setAlerts] = useState(loadAlerts)
+  const [pair, setPair] = useState('EUR/USD')
+  const [condition, setCondition] = useState('above') // 'above' | 'below'
   const [targetPrice, setTargetPrice] = useState('')
-  const [notifPerm,   setNotifPerm  ] = useState(Notification?.permission || 'default')
-  const [triggered,   setTriggered  ] = useState([]) // ids of recently triggered
+  const [notifPerm, setNotifPerm] = useState(Notification?.permission || 'default')
+  const [triggered, setTriggered] = useState([])     // ids of recently triggered
+  const [soundPlaying, setSoundPlaying] = useState(false)  // controls Stop button visibility
   const intervalRef = useRef(null)
+  const stopSoundRef = useRef(null)                        // holds the current stop() fn
 
   // Request notification permission
   const requestPermission = async () => {
@@ -30,19 +72,28 @@ export default function AlertsTab({ rates }) {
     setNotifPerm(perm)
   }
 
+  // Stop alert sound helper
+  const stopSound = () => {
+    if (stopSoundRef.current) {
+      stopSoundRef.current()
+      stopSoundRef.current = null
+    }
+    setSoundPlaying(false)
+  }
+
   // Add alert
   const addAlert = () => {
     const price = parseFloat(targetPrice)
     if (!pair || isNaN(price) || price <= 0) return
 
     const newAlert = {
-      id:        ++alertIdCounter,
+      id: ++alertIdCounter,
       pair,
       condition,
       targetPrice: price,
-      createdAt:   new Date().toISOString(),
-      active:      true,
-      triggered:   false,
+      createdAt: new Date().toISOString(),
+      active: true,
+      triggered: false,
     }
 
     setAlerts(prev => {
@@ -91,7 +142,19 @@ export default function AlertsTab({ rates }) {
         if (hit) {
           changed = true
 
-          // Fire browser notification
+          // Play sound — stop any previous ring first
+          if (stopSoundRef.current) stopSoundRef.current()
+          const stop = playAlertSound()
+          stopSoundRef.current = stop
+          setSoundPlaying(true)
+
+          // Auto-clear the stop button after 30 s (sound finishes naturally)
+          setTimeout(() => {
+            stopSoundRef.current = null
+            setSoundPlaying(false)
+          }, 30000)
+
+          // Fire browser notification (works in background tab)
           if (notifPerm === 'granted') {
             new Notification(`🔔 FXCalc Alert — ${alert.pair}`, {
               body: `Price is ${alert.condition} ${alert.targetPrice} — Current: ${currentRate.toFixed(5)}`,
@@ -99,7 +162,7 @@ export default function AlertsTab({ rates }) {
             })
           }
 
-          // Flash in UI
+          // Flash card in UI for 3 s
           setTriggered(t => [...t, alert.id])
           setTimeout(() => setTriggered(t => t.filter(x => x !== alert.id)), 3000)
 
@@ -119,13 +182,18 @@ export default function AlertsTab({ rates }) {
     return () => clearInterval(intervalRef.current)
   }, [checkAlerts])
 
+  // Cleanup sound on unmount
+  useEffect(() => {
+    return () => { if (stopSoundRef.current) stopSoundRef.current() }
+  }, [])
+
   // Current rate for selected pair
   const { base, quote } = PAIRS[pair] || {}
   const currentRate = rates[`${base}/${quote}`]
   const isJpy = PAIRS[pair]?.isJpy
   const decimals = isJpy ? 3 : 5
 
-  const activeAlerts    = alerts.filter(a => a.active && !a.triggered)
+  const activeAlerts = alerts.filter(a => a.active && !a.triggered)
   const triggeredAlerts = alerts.filter(a => a.triggered)
 
   return (
@@ -134,7 +202,7 @@ export default function AlertsTab({ rates }) {
       {notifPerm !== 'granted' && (
         <div className={a.permBanner}>
           <span className={a.permIcon}>🔔</span>
-          <span>Enable browser notifications to receive alerts even when the tab is in the background.</span>
+          <span>Enable browser notifications to receive alerts — with sound — even when on another tab.</span>
           <button className={a.permBtn} onClick={requestPermission}>
             {notifPerm === 'denied' ? 'Notifications Blocked in Browser' : 'Enable Notifications'}
           </button>
@@ -142,7 +210,7 @@ export default function AlertsTab({ rates }) {
       )}
       {notifPerm === 'granted' && (
         <div className={a.permGranted}>
-          <span>✅ Browser notifications enabled — alerts will fire in the background</span>
+          <span>✅ Browser notifications enabled — alerts will fire with sound in the background</span>
         </div>
       )}
 
@@ -211,6 +279,24 @@ export default function AlertsTab({ rates }) {
           <span className={a.statVal} style={{ color: 'var(--green)', fontSize: 12 }}>Every 10s</span>
         </div>
       </div>
+
+      {/* Stop Sound Button — only visible while sound is playing */}
+      {soundPlaying && (
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '8px 0' }}>
+          <button
+            className={a.clearBtn}
+            onClick={stopSound}
+            style={{
+              background: '#e53935',
+              color: '#fff',
+              border: 'none',
+              animation: 'pulse 1s infinite',
+            }}
+          >
+            🔇 Stop Alert Sound
+          </button>
+        </div>
+      )}
 
       {/* Alert list */}
       {alerts.length === 0 ? (

@@ -29,6 +29,16 @@ export const PAIR_GROUPS = {
     'CAD/CHF', 'CAD/SGD', 'NZD/CAD', 'NZD/CHF',
     'NZD/SGD',
   ],
+  '⬡ Metals & Commodities': [
+    'XAU/USD', 'XAG/USD', 'XPT/USD', 'XPD/USD',
+    'XAU/EUR', 'XAU/GBP', 'XAU/JPY',
+    'USOIL/USD', 'UKOIL/USD',
+  ],
+  '⬡ Crypto': [
+    'BTC/USD', 'ETH/USD', 'BNB/USD', 'XRP/USD',
+    'SOL/USD', 'ADA/USD', 'DOGE/USD', 'LTC/USD',
+    'BTC/EUR', 'ETH/EUR',
+  ],  
 }
 
 // ─── PAIR METADATA ──────────────────────────────────────────────────────────
@@ -101,6 +111,27 @@ export const PAIRS = {
   'NZD/CAD': { base: 'NZD', quote: 'CAD', isJpy: false },
   'NZD/CHF': { base: 'NZD', quote: 'CHF', isJpy: false },
   'NZD/SGD': { base: 'NZD', quote: 'SGD', isJpy: false },
+  // METALS & COMMODITIES  (pip = 0.01 for XAU; price entered manually)
+  'XAU/USD': { base: 'XAU', quote: 'USD', isJpy: false, isCommodity: true },
+  'XAG/USD': { base: 'XAG', quote: 'USD', isJpy: false, isCommodity: true },
+  'XPT/USD': { base: 'XPT', quote: 'USD', isJpy: false, isCommodity: true },
+  'XPD/USD': { base: 'XPD', quote: 'USD', isJpy: false, isCommodity: true },
+  'XAU/EUR': { base: 'XAU', quote: 'EUR', isJpy: false, isCommodity: true },
+  'XAU/GBP': { base: 'XAU', quote: 'GBP', isJpy: false, isCommodity: true },
+  'XAU/JPY': { base: 'XAU', quote: 'JPY', isJpy: true,  isCommodity: true },
+  'USOIL/USD': { base: 'USOIL', quote: 'USD', isJpy: false, isCommodity: true },
+  'UKOIL/USD': { base: 'UKOIL', quote: 'USD', isJpy: false, isCommodity: true },
+  // CRYPTO  (price entered manually — no live API coverage)
+  'BTC/USD':  { base: 'BTC',  quote: 'USD', isJpy: false, isCrypto: true },
+  'ETH/USD':  { base: 'ETH',  quote: 'USD', isJpy: false, isCrypto: true },
+  'BNB/USD':  { base: 'BNB',  quote: 'USD', isJpy: false, isCrypto: true },
+  'XRP/USD':  { base: 'XRP',  quote: 'USD', isJpy: false, isCrypto: true },
+  'SOL/USD':  { base: 'SOL',  quote: 'USD', isJpy: false, isCrypto: true },
+  'ADA/USD':  { base: 'ADA',  quote: 'USD', isJpy: false, isCrypto: true },
+  'DOGE/USD': { base: 'DOGE', quote: 'USD', isJpy: false, isCrypto: true },
+  'LTC/USD':  { base: 'LTC',  quote: 'USD', isJpy: false, isCrypto: true },
+  'BTC/EUR':  { base: 'BTC',  quote: 'EUR', isJpy: false, isCrypto: true },
+  'ETH/EUR':  { base: 'ETH',  quote: 'EUR', isJpy: false, isCrypto: true },   
 }
 
 // ─── LOT SIZES ───────────────────────────────────────────────────────────────

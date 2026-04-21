@@ -5,7 +5,15 @@ import { PAIRS, LOT_SIZES } from './constants'
  * JPY pairs: 0.01 | all others: 0.0001
  */
 export function getPipSize(pair) {
-  return PAIRS[pair]?.isJpy ? 0.01 : 0.0001
+  const meta = PAIRS[pair]
+  if (!meta) return 0.0001
+  if (meta.isCommodity || meta.isCrypto) {
+    // Gold/Silver/XAU pairs: pip = 0.01 (quoted to 2 dp)
+    // Oil: pip = 0.01
+    // Crypto: pip = 0.01 (most platforms use 2dp for BTC/ETH price)
+    return meta.isJpy ? 1 : 0.01
+  }
+  return meta.isJpy ? 0.01 : 0.0001
 }
 
 /**

@@ -32,47 +32,64 @@
   background: linear-gradient(90deg, transparent, #00c8ff22, transparent);
 }
 
-/* Brand block: logo text + title, always centered */
+/* ── Brand block ─────────────────────────────── */
 .headerBrand {
   text-align: center;
-  padding: 16px 0 8px;
+  padding: 10px 0 6px;
   position: relative;
 }
 
-.headerBrand::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #00c8ff33, transparent);
-  pointer-events: none;
-}
-
-.logo {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 6px;
-  color: var(--blue);
-  text-transform: uppercase;
-  opacity: 0.7;
-  margin-bottom: 4px;
-}
-
+/* Big title — main event */
 .title {
-  font-size: 38px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: 3px;
   color: #fff;
-  text-shadow: 0 0 30px #00c8ff55;
+  text-shadow:
+    0 0 40px #00c8ff44,
+    0 0 80px #00c8ff22,
+    0 2px 4px rgba(0,0,0,0.5);
   line-height: 1;
   font-family: var(--font-ui);
+  margin: 0;
 }
 
 .title span {
   color: var(--green);
-  text-shadow: 0 0 20px #00ff9d88;
+  text-shadow:
+    0 0 24px #00ff9daa,
+    0 0 48px #00ff9d44;
+}
+
+/* Thin glowing underline beneath the title */
+.titleUnderline {
+  width: 120px;
+  height: 2px;
+  margin: 6px auto 8px;
+  background: linear-gradient(90deg, transparent, #00c8ffaa, var(--green), #00c8ffaa, transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 8px #00c8ff66, 0 0 16px #00ff9d33;
+}
+
+/* Tagline — decorative, below title */
+.logo {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--blue);
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.logoDash {
+  opacity: 0.3;
+  letter-spacing: -1px;
+  font-size: 8px;
 }
 
 /* ── Tab Nav — two rows ───────────────────────── */
@@ -270,15 +287,15 @@
 
 /* ── Responsive ────────────────────────────────── */
 @media (max-width: 600px) {
-  .title { font-size: 24px; letter-spacing: 1px; }
-  .logo  { font-size: 10px; letter-spacing: 4px; }
-  .card  { padding: 14px 12px; }
-  .tab   { font-size: 11px; padding: 7px 10px; flex-shrink: 0; }
-  .tabs::after { display: block; height: 100%; }
-  /* Theme label hidden on very small screens — icon only */
+  .title         { font-size: 28px; letter-spacing: 2px; }
+  .titleUnderline{ width: 80px; margin: 5px auto 6px; }
+  .logo          { font-size: 9px; letter-spacing: 3px; }
+  .headerBrand   { padding: 8px 0 4px; }
+  .card          { padding: 14px 12px; }
+  .tab           { font-size: 11px; padding: 7px 10px; flex-shrink: 0; }
+  .tabs::after   { display: block; height: 100%; }
   .themeBtnLabel { display: none; }
-  .themeBtn { padding: 6px 10px; font-size: 14px; }
-  .headerBrand { padding: 12px 0 4px; }
+  .themeBtn      { padding: 6px 10px; font-size: 14px; }
 }
 
 /* ── Light-mode overrides ────────────────────── */

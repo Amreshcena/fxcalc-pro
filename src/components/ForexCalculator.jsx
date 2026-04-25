@@ -81,10 +81,17 @@ export default function ForexCalculator() {
           <AuthButton />
           {ThemeBtn}
         </div>
-        {/* Brand row — always centered */}
+        {/* Brand — compact, tight, no dead gap */}
         <div className={styles.headerBrand}>
-          <p className={styles.logo}>⬡ Forex Terminal</p>
-          <h1 className={styles.title}>FX<span>WOLFIX</span> PRO</h1>
+          <h1 className={styles.title}>
+            FX<span>WOLFIX</span> PRO
+          </h1>
+          <div className={styles.titleUnderline} />
+          <p className={styles.logo}>
+            <span className={styles.logoDash}>———</span>
+            &nbsp; ⬡ &nbsp;FOREX TERMINAL&nbsp; ⬡ &nbsp;
+            <span className={styles.logoDash}>———</span>
+          </p>
         </div>
       </header>
 

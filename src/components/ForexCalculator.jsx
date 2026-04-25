@@ -59,24 +59,33 @@ export default function ForexCalculator() {
     <AlertsTab rates={rates} />,
   ]
 
+  const ThemeBtn = (
+    <button
+      className={styles.themeBtn}
+      onClick={toggleTheme}
+      title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+      aria-label="Toggle theme"
+    >
+      {theme === 'dark' ? '☀' : '☾'}
+      <span className={styles.themeBtnLabel}>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+    </button>
+  )
+
   return (
     <div className={styles.app}>
 
       {/* ── Header ── */}
       <header className={styles.header}>
-        <div className={styles.headerInner}>
+        {/* Top action bar — auth left, theme right */}
+        <div className={styles.headerTopBar}>
+          <AuthButton />
+          {ThemeBtn}
+        </div>
+        {/* Brand row — always centered */}
+        <div className={styles.headerBrand}>
           <p className={styles.logo}>⬡ Forex Terminal</p>
           <h1 className={styles.title}>FX<span>WOLFIX</span> PRO</h1>
         </div>
-        {/* AuthButton is absolutely positioned to the left inside the header */}
-        <AuthButton />
-        <button
-          className={styles.themeBtn}
-          onClick={toggleTheme}
-          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-        >
-          {theme === 'dark' ? '☀ Light' : '☾ Dark'}
-        </button>
       </header>
 
       {/* ── Live Rates Bar ── */}
@@ -108,9 +117,7 @@ export default function ForexCalculator() {
           </span>
           {error && <span className={styles.errorBadge}>{error}</span>}
         </div>
-
         <p className={styles.cardTitle}>◈ {TABS[activeTab]}</p>
-
         <div role="tabpanel">
           {tabPanels[activeTab]}
         </div>
@@ -118,7 +125,7 @@ export default function ForexCalculator() {
 
       {/* ── Footer ── */}
       <footer className={styles.footer}>
-        RATES VIA FRANKFURTER.APP &nbsp;·&nbsp; FOR EDUCATIONAL USE ONLY &nbsp;·&nbsp; KEYS 1–9 / ← → TO SWITCH TABS
+        RATES VIA FRANKFURTER.APP &nbsp;·&nbsp; FOR EDUCATIONAL USE ONLY
       </footer>
     </div>
   )

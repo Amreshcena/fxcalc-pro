@@ -16,8 +16,9 @@ import SwapTab          from './SwapTab'
 import BreakEvenTab     from './BreakEvenTab'
 import ExposureTab      from './ExposureTab'
 import ConverterTab     from './ConverterTab'
-import TradingViewTab from './TradingViewTab'
-import AlertsTab      from './AlertsTab'  
+import TradingViewTab   from './TradingViewTab'
+import AlertsTab        from './AlertsTab'
+import AuthButton       from './AuthButton'
 import styles from './ForexCalculator.module.css'
 
 export default function ForexCalculator() {
@@ -54,8 +55,8 @@ export default function ForexCalculator() {
     <ConverterTab    rates={rates} />,
     <JournalTab />,
     <CompoundTab />,
-    <TradingViewTab />,       
-  <AlertsTab rates={rates} />,  
+    <TradingViewTab />,
+    <AlertsTab rates={rates} />,
   ]
 
   return (
@@ -67,6 +68,8 @@ export default function ForexCalculator() {
           <p className={styles.logo}>⬡ Forex Terminal</p>
           <h1 className={styles.title}>FX<span>WOLFIX</span> PRO</h1>
         </div>
+        {/* AuthButton is absolutely positioned to the left inside the header */}
+        <AuthButton />
         <button
           className={styles.themeBtn}
           onClick={toggleTheme}

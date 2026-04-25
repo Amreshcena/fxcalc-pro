@@ -1,5 +1,10 @@
+import { AuthProvider } from './context/AuthContext'
 import ForexCalculator from './components/ForexCalculator'
 
 export default function App() {
-  return <ForexCalculator />
+  return (
+    <AuthProvider>
+      <ForexCalculator />
+    </AuthProvider>
+  )
 }

@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { PAIRS } from '../utils/constants'
 import { PairSelect } from './shared'
+import { useAuthContext } from '../context/AuthContext'
 import a from './AlertsTab.module.css'
 
 const STORAGE_KEY = 'fxcalc_alerts_v1'
 
 function loadAlerts() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [] } catch { return [] }
-}
-function saveAlerts(alerts) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(alerts)) } catch { }
 }
 
 // Play a beeping sound for 30 seconds using Web Audio API.
@@ -34,14 +32,12 @@ function playAlertSound() {
       gain.gain.exponentialRampToValueAtTime(0.001, startAt + 0.4)
       osc.start(startAt)
       osc.stop(startAt + 0.4)
-      // Schedule next beep 1.2 s later using setTimeout so we can bail if stopped
       const delay = (startAt - ctx.currentTime + 1.2) * 1000
       setTimeout(() => beep(ctx.currentTime + 0.05), delay)
     }
 
     beep(ctx.currentTime)
 
-    // Return stop function
     return () => {
       stopped = true
       try { ctx.close() } catch (_) { }
@@ -61,9 +57,22 @@ export default function AlertsTab({ rates }) {
   const [targetPrice, setTargetPrice] = useState('')
   const [notifPerm, setNotifPerm] = useState(Notification?.permission || 'default')
   const [triggered, setTriggered] = useState([])     // ids of recently triggered
-  const [soundPlaying, setSoundPlaying] = useState(false)  // controls Stop button visibility
+  const [soundPlaying, setSoundPlaying] = useState(false)
   const intervalRef = useRef(null)
-  const stopSoundRef = useRef(null)                        // holds the current stop() fn
+  const stopSoundRef = useRef(null)
+  const { saveToCloud, cloudData } = useAuthContext()
+
+  // When cloud data arrives after login, update state reactively (no reload)
+  useEffect(() => {
+    if (cloudData?.alerts) {
+      setAlerts(cloudData.alerts)
+    }
+  }, [cloudData?.alerts])
+
+  // Persist alerts to localStorage + Firestore
+  const persistAlerts = useCallback((updated) => {
+    saveToCloud('alerts', updated)
+  }, [saveToCloud])
 
   // Request notification permission
   const requestPermission = async () => {
@@ -98,7 +107,7 @@ export default function AlertsTab({ rates }) {
 
     setAlerts(prev => {
       const updated = [newAlert, ...prev]
-      saveAlerts(updated)
+      persistAlerts(updated)
       return updated
     })
     setTargetPrice('')
@@ -108,7 +117,7 @@ export default function AlertsTab({ rates }) {
   const removeAlert = (id) => {
     setAlerts(prev => {
       const updated = prev.filter(a => a.id !== id)
-      saveAlerts(updated)
+      persistAlerts(updated)
       return updated
     })
   }
@@ -117,7 +126,7 @@ export default function AlertsTab({ rates }) {
   const toggleAlert = (id) => {
     setAlerts(prev => {
       const updated = prev.map(a => a.id === id ? { ...a, active: !a.active } : a)
-      saveAlerts(updated)
+      persistAlerts(updated)
       return updated
     })
   }
@@ -142,19 +151,16 @@ export default function AlertsTab({ rates }) {
         if (hit) {
           changed = true
 
-          // Play sound — stop any previous ring first
           if (stopSoundRef.current) stopSoundRef.current()
           const stop = playAlertSound()
           stopSoundRef.current = stop
           setSoundPlaying(true)
 
-          // Auto-clear the stop button after 30 s (sound finishes naturally)
           setTimeout(() => {
             stopSoundRef.current = null
             setSoundPlaying(false)
           }, 30000)
 
-          // Fire browser notification (works in background tab)
           if (notifPerm === 'granted') {
             new Notification(`🔔 FXCalc Alert — ${alert.pair}`, {
               body: `Price is ${alert.condition} ${alert.targetPrice} — Current: ${currentRate.toFixed(5)}`,
@@ -162,7 +168,6 @@ export default function AlertsTab({ rates }) {
             })
           }
 
-          // Flash card in UI for 3 s
           setTriggered(t => [...t, alert.id])
           setTimeout(() => setTriggered(t => t.filter(x => x !== alert.id)), 3000)
 
@@ -171,10 +176,10 @@ export default function AlertsTab({ rates }) {
         return alert
       })
 
-      if (changed) saveAlerts(updated)
+      if (changed) persistAlerts(updated)
       return changed ? updated : prev
     })
-  }, [rates, notifPerm])
+  }, [rates, notifPerm, persistAlerts])
 
   // Poll every 10 seconds
   useEffect(() => {
@@ -187,7 +192,6 @@ export default function AlertsTab({ rates }) {
     return () => { if (stopSoundRef.current) stopSoundRef.current() }
   }, [])
 
-  // Current rate for selected pair
   const { base, quote } = PAIRS[pair] || {}
   const currentRate = rates[`${base}/${quote}`]
   const isJpy = PAIRS[pair]?.isJpy
@@ -280,18 +284,13 @@ export default function AlertsTab({ rates }) {
         </div>
       </div>
 
-      {/* Stop Sound Button — only visible while sound is playing */}
+      {/* Stop Sound Button */}
       {soundPlaying && (
         <div style={{ display: 'flex', justifyContent: 'center', margin: '8px 0' }}>
           <button
             className={a.clearBtn}
             onClick={stopSound}
-            style={{
-              background: '#e53935',
-              color: '#fff',
-              border: 'none',
-              animation: 'pulse 1s infinite',
-            }}
+            style={{ background: '#e53935', color: '#fff', border: 'none', animation: 'pulse 1s infinite' }}
           >
             🔇 Stop Alert Sound
           </button>
@@ -360,7 +359,7 @@ export default function AlertsTab({ rates }) {
       {alerts.length > 0 && (
         <button
           className={a.clearBtn}
-          onClick={() => { setAlerts([]); saveAlerts([]) }}
+          onClick={() => { setAlerts([]); persistAlerts([]) }}
         >
           🗑 Clear All Alerts
         </button>

@@ -147,9 +147,13 @@ export const ACCOUNT_CURRENCIES = ['USD', 'EUR', 'GBP', 'JPY', 'CHF', 'AUD', 'CA
 
 // ─── TICKER PAIRS shown in the live rates bar ─────────────────────────────
 export const TICKER_PAIRS = [
+  // Forex majors
   'EUR/USD', 'GBP/USD', 'USD/JPY', 'USD/CHF', 'AUD/USD', 'USD/CAD', 'NZD/USD',
-  'EUR/GBP', 'EUR/JPY', 'GBP/JPY', 'AUD/JPY', 'USD/SGD', 'USD/MXN', 'USD/ZAR',
-  'USD/TRY', 'USD/NOK', 'USD/SEK', 'CAD/JPY', 'CHF/JPY', 'EUR/AUD',
+  'EUR/GBP', 'EUR/JPY', 'GBP/JPY',
+  // Metals (XPT/XPD/USOIL/UKOIL not available from free API)
+  'XAU/USD', 'XAG/USD', 'XAU/EUR', 'XAU/GBP',
+  // Crypto
+  'BTC/USD', 'ETH/USD', 'BNB/USD', 'XRP/USD', 'SOL/USD', 'DOGE/USD', 'BTC/EUR', 'ETH/EUR',
 ]
 
 // ─── CALCULATOR TABS ─────────────────────────────────────────────────────────

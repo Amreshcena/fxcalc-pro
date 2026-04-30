@@ -16,8 +16,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
   border-radius: 6px;
   padding: 6px 12px;
 }
@@ -32,7 +32,7 @@
 .rateVal {
   font-family: var(--font-mono);
   font-size: 13px;
-  color: #fff;
+  color: var(--text);
 }
 
 .skeleton {
@@ -40,7 +40,7 @@
   width: 52px;
   height: 10px;
   border-radius: 3px;
-  background: linear-gradient(90deg, #0d2235, #1a3a55, #0d2235);
+  background: linear-gradient(90deg, var(--border), var(--muted), var(--border));
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }

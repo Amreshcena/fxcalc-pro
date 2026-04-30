@@ -1,5 +1,5 @@
 .converterCard {
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
@@ -29,21 +29,21 @@
 }
 
 .amountInput {
-  background: #050a0e;
+  background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 14px 16px;
-  color: #fff;
+  color: var(--text);
   font-family: var(--font-mono);
   font-size: 22px;
   outline: none;
   width: 100%;
   transition: border-color 0.2s;
 }
-.amountInput:focus { border-color: #00c8ff88; }
+.amountInput:focus { border-color: color-mix(in srgb, var(--blue) 55%, transparent); }
 
 .ccySelect {
-  background: #050a0e;
+  background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 14px 12px;
@@ -59,17 +59,17 @@
   text-align: center;
   transition: border-color 0.2s;
 }
-.ccySelect:focus { border-color: #00c8ff88; }
+.ccySelect:focus { border-color: color-mix(in srgb, var(--blue) 55%, transparent); }
 
 .resultBox {
-  background: #050a0e;
-  border: 1px solid #00c8ff33;
+  background: var(--card-inner);
+  border: 1px solid color-mix(in srgb, var(--blue) 25%, transparent);
   border-radius: 6px;
   padding: 14px 16px;
   color: var(--green);
   font-family: var(--font-mono);
   font-size: 22px;
-  text-shadow: 0 0 12px #00ff9d44;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--green) 30%, transparent);
   min-height: 54px;
   display: flex;
   align-items: center;
@@ -93,8 +93,8 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #0a2540;
-  border: 1px solid #00c8ff55;
+  background: var(--card-bg);
+  border: 1px solid color-mix(in srgb, var(--blue) 40%, transparent);
   color: var(--blue);
   font-size: 18px;
   cursor: pointer;
@@ -105,8 +105,8 @@
   transition: all 0.2s;
 }
 .swapBtn:hover {
-  background: #0d3050;
-  box-shadow: 0 0 12px #00c8ff33;
+  background: color-mix(in srgb, var(--blue) 15%, var(--card-bg));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--blue) 20%, transparent);
   transform: rotate(180deg);
 }
 
@@ -161,16 +161,16 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--muted);
-  background: #060c12;
+  background: var(--card-inner);
   border-bottom: 1px solid var(--border);
 }
 
 .tr {
-  border-bottom: 1px solid #0a1824;
+  border-bottom: 1px solid var(--border);
   transition: background 0.12s;
 }
 .tr:last-child { border-bottom: none; }
-.tr:hover { background: #070e16; }
+.tr:hover { background: color-mix(in srgb, var(--blue) 5%, var(--card-bg)); }
 
 .td { padding: 10px 16px; }
 

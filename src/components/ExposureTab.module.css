@@ -1,5 +1,5 @@
 .miniSelect {
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 6px 12px;
@@ -18,7 +18,7 @@
 }
 
 .posCard {
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 16px;
@@ -41,7 +41,7 @@
 
 .removeBtn {
   background: transparent;
-  border: 1px solid #1a3a4a;
+  border: 1px solid var(--border);
   border-radius: 5px;
   padding: 4px 10px;
   color: var(--muted);
@@ -70,7 +70,7 @@
   flex: 1;
   padding: 10px;
   background: transparent;
-  border: 1px dashed #1a3a55;
+  border: 1px dashed var(--border);
   border-radius: 8px;
   color: var(--blue);
   font-family: var(--font-ui);
@@ -86,8 +86,8 @@
 .calcBtn {
   flex: 2;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #0a2540, #0d3550);
-  border: 1px solid #00c8ff66;
+  background: color-mix(in srgb, var(--blue) 12%, var(--card-bg));
+  border: 1px solid color-mix(in srgb, var(--blue) 50%, transparent);
   border-radius: 8px;
   color: var(--blue);
   font-family: var(--font-ui);
@@ -98,7 +98,7 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-.calcBtn:hover { box-shadow: 0 0 16px #00c8ff22; }
+.calcBtn:hover { box-shadow: 0 0 16px color-mix(in srgb, var(--blue) 15%, transparent); }
 
 /* ── Table ─── */
 .tableWrap {
@@ -122,13 +122,13 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--muted);
-  background: #060c12;
+  background: var(--card-inner);
   border-bottom: 1px solid var(--border);
 }
 
-.tr { border-bottom: 1px solid #0a1824; }
+.tr { border-bottom: 1px solid var(--border); }
 .tr:last-child { border-bottom: none; }
-.tr:hover { background: #070e16; }
+.tr:hover { background: color-mix(in srgb, var(--blue) 5%, var(--card-bg)); }
 
 .td { padding: 10px 12px; vertical-align: middle; }
 
@@ -157,7 +157,7 @@
 }
 
 .sumCard {
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 14px;

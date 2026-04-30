@@ -11,7 +11,7 @@
 }
 
 .input {
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 10px 14px;
@@ -24,8 +24,8 @@
 }
 
 .input:focus {
-  border-color: #00c8ff88;
-  box-shadow: 0 0 0 3px #00c8ff11;
+  border-color: color-mix(in srgb, var(--blue) 55%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 10%, transparent);
 }
 
 .radioGroup {
@@ -36,7 +36,7 @@
 .radioBtn {
   flex: 1;
   padding: 10px;
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--muted);
@@ -51,17 +51,17 @@
 }
 
 .buyActive {
-  background: #061a0f;
-  border-color: #00ff9d88;
+  background: var(--buy-active-bg);
+  border-color: color-mix(in srgb, var(--green) 55%, transparent);
   color: var(--green);
-  text-shadow: 0 0 8px #00ff9d44;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--green) 25%, transparent);
 }
 
 .sellActive {
-  background: #1a0608;
-  border-color: #ff4d6d88;
+  background: var(--sell-active-bg);
+  border-color: color-mix(in srgb, var(--red) 55%, transparent);
   color: var(--red);
-  text-shadow: 0 0 8px #ff4d6d44;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--red) 25%, transparent);
 }
 
 @media (max-width: 600px) {
@@ -74,3 +74,9 @@
 /* Direction modifier classes (used alongside .radioBtn) */
 .buy  { /* placeholder for buy direction radioBtn */ }
 .sell { /* placeholder for sell direction radioBtn */ }
+
+/* ── Light mode: force input bg visible ──────────────── */
+:global([data-theme='light']) .input {
+  background: #ffffff;
+  color: #0d1c2b;
+}

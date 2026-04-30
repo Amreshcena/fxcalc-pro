@@ -18,7 +18,7 @@
 
 .select,
 .input {
-  background: #060c12;
+  background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 10px 14px;
@@ -39,17 +39,44 @@
   padding-right: 32px;
 }
 
+/* Light mode — swap arrow to a darker teal so it shows on white bg */
+[data-theme='light'] .select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230070c0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+}
+
 .select:focus,
 .input:focus {
-  border-color: #00c8ff88;
-  box-shadow: 0 0 0 3px #00c8ff11;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 12%, transparent);
+}
+
+/* ── select <option> text — force correct colors in both themes ── */
+.select option {
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+/* ── Light mode: make dropdown popup readable ── */
+[data-theme='light'] .select {
+  background-color: var(--input-bg);
+  color: var(--text);
+}
+
+[data-theme='light'] .select option {
+  background: #ffffff;
+  color: #0d1c2b;
+}
+
+[data-theme='light'] .input {
+  background-color: var(--input-bg);
+  color: var(--text);
 }
 
 .btn {
   margin-top: 24px;
   padding: 12px 28px;
-  background: linear-gradient(135deg, #0a2540 0%, #0d3550 100%);
-  border: 1px solid #00c8ff66;
+  background: linear-gradient(135deg, var(--card-inner) 0%, var(--card-bg) 100%);
+  border: 1px solid var(--blue);
   border-radius: 8px;
   color: var(--blue);
   font-family: var(--font-ui);
@@ -63,8 +90,8 @@
 }
 
 .btn:hover {
-  background: linear-gradient(135deg, #0d3050 0%, #104070 100%);
-  box-shadow: 0 0 20px #00c8ff33;
+  background: color-mix(in srgb, var(--blue) 12%, var(--card-bg));
+  box-shadow: 0 0 20px color-mix(in srgb, var(--blue) 25%, transparent);
   transform: translateY(-1px);
 }
 
@@ -84,16 +111,16 @@
   justify-content: space-between;
   align-items: center;
   padding: 14px 16px;
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
-  border-left: 3px solid #00c8ff88;
+  border-left: 3px solid var(--blue);
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .resultRow:hover {
-  background: #070f18;
+  background: color-mix(in srgb, var(--blue) 6%, var(--card-inner));
 }
 
 .resultRight {
@@ -105,13 +132,15 @@
 .copyHint {
   font-family: var(--font-mono);
   font-size: 13px;
-  color: #1a3a55;
+  color: var(--muted);
   transition: color 0.2s;
   user-select: none;
+  opacity: 0.5;
 }
 
 .resultRow:hover .copyHint {
   color: var(--blue);
+  opacity: 1;
 }
 
 .resultLabel {
@@ -125,21 +154,22 @@
 .resultValue {
   font-family: var(--font-mono);
   font-size: 18px;
+  color: var(--text);
 }
 
 .green {
   color: var(--green);
-  text-shadow: 0 0 12px #00ff9d66;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--green) 40%, transparent);
 }
 
 .red {
   color: var(--red);
-  text-shadow: 0 0 12px #ff4d6d66;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--red) 40%, transparent);
 }
 
 .blue {
   color: var(--blue);
-  text-shadow: 0 0 12px #00c8ff66;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--blue) 40%, transparent);
 }
 
 @media (max-width: 600px) {
@@ -162,7 +192,7 @@
 .favBtn {
   flex-shrink: 0;
   width: 36px;
-  background: var(--input-bg, #060c12);
+  background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--muted);
@@ -183,5 +213,16 @@
 .favActive {
   color: #f0c040 !important;
   border-color: #f0c04088 !important;
-  background: #1a150244 !important;
+  background: color-mix(in srgb, #f0c040 10%, var(--input-bg)) !important;
+}
+
+/* ── Light mode: button and select/input explicit overrides ── */
+:global([data-theme='light']) .btn {
+  background: linear-gradient(135deg, #eaf3fb 0%, #f5f9ff 100%);
+}
+
+:global([data-theme='light']) .select,
+:global([data-theme='light']) .input {
+  background: #ffffff;
+  color: #0d1c2b;
 }

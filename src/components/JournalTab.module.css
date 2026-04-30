@@ -10,7 +10,7 @@
 }
 
 .statCard {
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px 14px;
@@ -41,8 +41,8 @@
 .addToggleBtn {
   width: 100%;
   padding: 11px;
-  background: #060c12;
-  border: 1px dashed #1a3a55;
+  background: var(--card-inner);
+  border: 1px dashed var(--border);
   border-radius: 8px;
   color: var(--blue);
   font-family: var(--font-ui);
@@ -56,7 +56,7 @@
 
 .addToggleBtn:hover {
   border-color: var(--blue);
-  background: #060f18;
+  background: color-mix(in srgb, var(--blue) 6%, var(--card-inner));
 }
 
 .formGrid {
@@ -64,7 +64,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 14px;
   margin-top: 16px;
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 20px;
@@ -75,7 +75,7 @@
 }
 
 .textarea {
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 10px 14px;
@@ -90,8 +90,8 @@
 }
 
 .textarea:focus {
-  border-color: #00c8ff88;
-  box-shadow: 0 0 0 3px #00c8ff11;
+  border-color: color-mix(in srgb, var(--blue) 55%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 10%, transparent);
 }
 
 /* ── Table ──────────────────────────────── */
@@ -115,7 +115,7 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--muted);
-  background: #060c12;
+  background: var(--card-inner);
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
 }
@@ -123,11 +123,11 @@
 .trRow {
   cursor: pointer;
   transition: background 0.15s;
-  border-bottom: 1px solid #0a1824;
+  border-bottom: 1px solid var(--border);
 }
 
 .trRow:hover {
-  background: #070e16;
+  background: color-mix(in srgb, var(--blue) 5%, var(--card-bg));
 }
 
 .td {
@@ -151,7 +151,7 @@
 .deleteBtn {
   background: transparent;
   border: none;
-  color: #2a4a5a;
+  color: var(--muted);
   font-size: 14px;
   cursor: pointer;
   padding: 4px 8px;
@@ -160,13 +160,13 @@
 }
 
 .deleteBtn:hover {
-  background: #1a060844;
+  background: var(--error-badge-bg);
   color: var(--red);
 }
 
 /* ── Expand row ─────────────────────────── */
 .expandRow {
-  background: #060c12;
+  background: var(--card-inner);
 }
 
 .expandCell {
@@ -205,7 +205,7 @@
 .notesText {
   font-family: var(--font-ui);
   font-size: 14px;
-  color: #8ab0c0;
+  color: var(--muted);
   line-height: 1.5;
 }
 
@@ -219,7 +219,7 @@
 
 .resultBtn {
   padding: 5px 12px;
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 5px;
   color: var(--muted);
@@ -237,7 +237,7 @@
 .resultBtnActive {
   border-color: var(--rc, var(--blue));
   color: var(--rc, var(--blue));
-  background: #060f18;
+  background: color-mix(in srgb, var(--blue) 6%, var(--card-inner));
 }
 
 /* ── Empty state ────────────────────────── */
@@ -278,7 +278,7 @@
 
 .clearBtn {
   background: transparent;
-  border: 1px solid #1a3a4a;
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 7px 14px;
   color: var(--muted);
@@ -302,7 +302,7 @@
 
 .clearConfirmBtn {
   padding: 7px 14px;
-  background: #1a060844;
+  background: var(--error-badge-bg);
   border: 1px solid var(--red);
   border-radius: 6px;
   color: var(--red);
@@ -313,7 +313,7 @@
 }
 
 .clearConfirmBtn:hover {
-  background: #2a0a1088;
+  background: var(--sell-active-bg);
 }
 
 .cancelBtn {

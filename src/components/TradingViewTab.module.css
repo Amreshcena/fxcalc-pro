@@ -4,7 +4,7 @@
   gap: 16px;
   margin-bottom: 16px;
   padding: 16px;
-  background: #060c12;
+  background: var(--card-inner);
   border: 1px solid var(--border);
   border-radius: 10px;
 }
@@ -24,7 +24,7 @@
 }
 
 .select {
-  background: #050a0e;
+  background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 7px 12px;
@@ -40,7 +40,7 @@
 }
 
 .select:focus {
-  border-color: #00c8ff88;
+  border-color: color-mix(in srgb, var(--blue) 55%, transparent);
 }
 
 .btnGroup {
@@ -51,7 +51,7 @@
 
 .ivBtn {
   padding: 6px 12px;
-  background: #050a0e;
+  background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 5px;
   color: var(--muted);
@@ -63,15 +63,15 @@
 }
 
 .ivBtn:hover {
-  border-color: #00c8ff66;
+  border-color: color-mix(in srgb, var(--blue) 50%, transparent);
   color: var(--blue);
 }
 
 .ivActive {
-  background: #0a2540;
-  border-color: #00c8ff88;
+  background: var(--card-bg);
+  border-color: color-mix(in srgb, var(--blue) 65%, transparent);
   color: var(--blue);
-  text-shadow: 0 0 8px #00c8ff44;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--blue) 30%, transparent);
 }
 
 /* Chart */

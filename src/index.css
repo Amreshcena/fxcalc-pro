@@ -21,20 +21,34 @@
   --input-bg:  #060c12;
   --font-mono: 'Share Tech Mono', monospace;
   --font-ui:   'Rajdhani', sans-serif;
+  /* Dark-only extras */
+  --chip-bg:        #090f14;
+  --chip-border:    #0d2235;
+  --buy-active-bg:  #061a0f;
+  --sell-active-bg: #1a0608;
+  --error-badge-bg: #1a060844;
+  --error-badge-border: #ff4d6d33;
 }
 
 /* ── Light theme ────────────────────────────────── */
 [data-theme='light'] {
-  --bg:        #f0f4f8;
-  --card-bg:   #ffffff;
-  --card-inner:#f8fafc;
-  --border:    #d0dce8;
-  --green:     #00a86b;
-  --red:       #d92b4b;
-  --blue:      #0070c0;
-  --text:      #1a2a3a;
-  --muted:     #6a8aaa;
-  --input-bg:  #f8fafc;
+  --bg:             #f0f4f8;
+  --card-bg:        #ffffff;
+  --card-inner:     #f4f7fb;
+  --border:         #c8d8e8;
+  --green:          #007a50;
+  --red:            #c0243a;
+  --blue:           #0060a8;
+  --text:           #0d1c2b;
+  --muted:          #5a7898;
+  --input-bg:       #ffffff;
+  /* Light-only extras */
+  --chip-bg:        #e4ecf6;
+  --chip-border:    #9ab5cc;
+  --buy-active-bg:  #e6f7f0;
+  --sell-active-bg: #fde8ec;
+  --error-badge-bg: #fff0f2;
+  --error-badge-border: #f8c0c8;
 }
 
 html {
@@ -69,4 +83,25 @@ textarea {
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #1a3a55; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── Global light-mode overrides ────────────────────────────────────────── */
+/* Native <select> and <input> elements inherit dark-ish bg on some browsers  */
+[data-theme='light'] input,
+[data-theme='light'] select,
+[data-theme='light'] textarea {
+  background-color: var(--input-bg);
+  color: var(--text);
+  color-scheme: light;
+}
+
+/* Force native dropdown popup to use light colors */
+[data-theme='light'] select option {
+  background: #ffffff;
+  color: #0d1c2b;
+}
+
+/* Skeleton shimmer on light bg */
+[data-theme='light'] .skeleton {
+  background: linear-gradient(90deg, #d0dce8, #b8cad8, #d0dce8);
+}
